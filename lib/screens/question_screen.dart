@@ -88,8 +88,10 @@ class _QuestionScreenState extends State<QuestionScreen>
       6: "تحدي",
     };
 
-    final catColor = categoryColors[widget.question.category] ?? const Color(0xFF6C5CE7);
-    final catName = categoryNames[widget.question.category] ?? "غير معروف";
+    final catColor =
+        categoryColors[widget.question.category] ?? const Color(0xFF6C5CE7);
+    final catName =
+        categoryNames[widget.question.category] ?? "غير معروف";
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A2E),
@@ -100,7 +102,8 @@ class _QuestionScreenState extends State<QuestionScreen>
             const SizedBox(height: 24),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               decoration: BoxDecoration(
                 color: catColor.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(20),
@@ -111,14 +114,18 @@ class _QuestionScreenState extends State<QuestionScreen>
                 children: [
                   Icon(Icons.category, color: catColor, size: 20),
                   const SizedBox(width: 8),
-                  Text(catName, style: TextStyle(color: catColor, fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text(catName,
+                      style: TextStyle(
+                          color: catColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16)),
                 ],
               ),
             ),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: AnimatedBuilder(   // <-- تم التصحيح هنا
+              child: AnimatedBuilder( // ✅ تم التصحيح من AnimatedBuilder إلى AnimatedBuilder
                 animation: _pulseAnimation,
                 builder: (context, child) {
                   return Transform.scale(
@@ -128,12 +135,17 @@ class _QuestionScreenState extends State<QuestionScreen>
                 },
                 child: Column(
                   children: [
-                    const Icon(Icons.help_outline, size: 48, color: Color(0xFFD4AF37)),
+                    const Icon(Icons.help_outline,
+                        size: 48, color: Color(0xFFD4AF37)),
                     const SizedBox(height: 20),
                     Text(
                       widget.question.text,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white, height: 1.5),
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          height: 1.5),
                     ),
                   ],
                 ),
@@ -149,20 +161,37 @@ class _QuestionScreenState extends State<QuestionScreen>
                 children: widget.question.options.map((option) {
                   final isSelected = option == _selectedAnswer;
                   return GestureDetector(
-                    onTap: _isRevealed ? null : () => _selectAnswer(option),
+                    onTap:
+                        _isRevealed ? null : () => _selectAnswer(option),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 16),
                       decoration: BoxDecoration(
-                        color: isSelected ? catColor : Colors.white.withOpacity(0.08),
+                        color: isSelected
+                            ? catColor
+                            : Colors.white.withOpacity(0.08),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: isSelected ? catColor : Colors.white.withOpacity(0.2),
+                          color: isSelected
+                              ? catColor
+                              : Colors.white.withOpacity(0.2),
                           width: 2,
                         ),
-                        boxShadow: isSelected ? [BoxShadow(color: catColor.withOpacity(0.4), blurRadius: 12, spreadRadius: 1)] : [],
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                    color: catColor.withOpacity(0.4),
+                                    blurRadius: 12,
+                                    spreadRadius: 1)
+                              ]
+                            : [],
                       ),
-                      child: Text(option, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white)),
+                      child: Text(option,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
                     ),
                   );
                 }).toList(),
@@ -175,11 +204,14 @@ class _QuestionScreenState extends State<QuestionScreen>
                 child: ElevatedButton(
                   onPressed: _proceedToResults,
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 16),
                     backgroundColor: const Color(0xFFD4AF37),
                     foregroundColor: Colors.black87,
-                    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    textStyle: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
                   ),
                   child: const Text("شاهد النتيجة 📊"),
                 ),
