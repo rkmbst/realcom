@@ -59,9 +59,9 @@ class _WheelScreenState extends State<WheelScreen>
     _spinController.duration = Duration(milliseconds: randomDuration);
 
     try {
-      await _spinController.forward().orCancel;
+      await _spinController.forward(); // ✅ تم إزالة .orCancel واستخدام try/catch
     } catch (_) {
-      // في حال تم إلغاء الأنيميشن بشكل غير متوقع
+      // تم إلغاء الأنيميشن بأمان
     }
 
     if (!mounted) return;
@@ -88,7 +88,8 @@ class _WheelScreenState extends State<WheelScreen>
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('لا توجد أسئلة في هذه الفئة بعد. يمكنك اقتراح سؤال جديد!'),
+          content:
+              Text('لا توجد أسئلة في هذه الفئة بعد. يمكنك اقتراح سؤال جديد!'),
           backgroundColor: Color(0xFFD63031),
           duration: Duration(seconds: 3),
         ),
@@ -110,7 +111,8 @@ class _WheelScreenState extends State<WheelScreen>
       backgroundColor: const Color(0xFF1A1A2E),
       appBar: AppBar(title: const Text("🎡 عجلة الأسئلة")),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Color(0xFFD4AF37)))
+          ? const Center(
+              child: CircularProgressIndicator(color: Color(0xFFD4AF37)))
           : _errorMessage != null
               ? Center(
                   child: ErrorBanner(
@@ -124,7 +126,8 @@ class _WheelScreenState extends State<WheelScreen>
                     _buildIndicator(),
                     const SizedBox(height: 16),
                     GestureDetector(
-                      onVerticalDragEnd: _isSpinning ? null : (_) => _spinWheel(),
+                      onVerticalDragEnd:
+                          _isSpinning ? null : (_) => _spinWheel(),
                       onTap: _isSpinning ? null : () => _spinWheel(),
                       child: Container(
                         width: wheelDiameter,
@@ -132,16 +135,24 @@ class _WheelScreenState extends State<WheelScreen>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(color: Colors.black38, blurRadius: 30, spreadRadius: 5),
-                            BoxShadow(color: Colors.white10, blurRadius: 15, spreadRadius: -5),
+                            BoxShadow(
+                                color: Colors.black38,
+                                blurRadius: 30,
+                                spreadRadius: 5),
+                            BoxShadow(
+                                color: Colors.white10,
+                                blurRadius: 15,
+                                spreadRadius: -5),
                           ],
                         ),
                         child: CustomPaint(
-                          painter: FancyWheelPainter(_currentRotation, wheelDiameter / 2),
+                          painter: FancyWheelPainter(
+                              _currentRotation, wheelDiameter / 2),
                           child: Center(
                             child: _isSpinning
                                 ? const SizedBox.shrink()
-                                : const Icon(Icons.touch_app, color: Colors.white54, size: 32),
+                                : const Icon(Icons.touch_app,
+                                    color: Colors.white54, size: 32),
                           ),
                         ),
                       ),
@@ -150,13 +161,17 @@ class _WheelScreenState extends State<WheelScreen>
                     ElevatedButton.icon(
                       onPressed: _isSpinning ? null : _spinWheel,
                       icon: const Icon(Icons.casino),
-                      label: Text(_isSpinning ? "جاري الدوران..." : "دور العجلة"),
+                      label:
+                          Text(_isSpinning ? "جاري الدوران..." : "دور العجلة"),
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 18),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 36, vertical: 18),
                         backgroundColor: const Color(0xFFD4AF37),
                         foregroundColor: Colors.black87,
-                        textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        textStyle: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         elevation: 8,
                       ),
                     ),
