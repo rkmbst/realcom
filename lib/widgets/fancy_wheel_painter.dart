@@ -28,19 +28,19 @@ class FancyWheelPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final double segmentAngle = 2 * pi / kSegments.length;
 
-    // طبقة زجاجية شفافة خارجية
     final glassPaint = Paint()
       ..shader = RadialGradient(
-        colors: [Colors.white.withOpacity(0.15), Colors.white.withOpacity(0.03)],
+        colors: [
+          Colors.white.withOpacity(0.15),
+          Colors.white.withOpacity(0.03)
+        ],
       ).createShader(Rect.fromCircle(center: center, radius: wheelRadius));
     canvas.drawCircle(center, wheelRadius, glassPaint);
 
-    // رسم الأقسام الستة
     for (int i = 0; i < kSegments.length; i++) {
       final startAngle = rotation + i * segmentAngle;
       final sweepAngle = segmentAngle;
 
-      // تدرج لوني داخل القسم
       final gradient = SweepGradient(
         startAngle: 0.0,
         endAngle: pi * 2,
@@ -64,7 +64,6 @@ class FancyWheelPainter extends CustomPainter {
         paint,
       );
 
-      // حدود ذهبية بين الأقسام
       final borderPaint = Paint()
         ..color = Colors.white24
         ..style = PaintingStyle.stroke
@@ -77,7 +76,6 @@ class FancyWheelPainter extends CustomPainter {
         borderPaint,
       );
 
-      // النص والأيقونة
       final textAngle = startAngle + sweepAngle / 2;
       final textRadius = wheelRadius * 0.72;
       final textOffset = Offset(
@@ -85,7 +83,6 @@ class FancyWheelPainter extends CustomPainter {
         center.dy + textRadius * sin(textAngle),
       );
 
-      // رسم الأيقونة
       final iconPainter = TextPainter(
         text: TextSpan(
           text: String.fromCharCode(kSegments[i].icon.codePoint),
@@ -100,10 +97,10 @@ class FancyWheelPainter extends CustomPainter {
       )..layout();
       iconPainter.paint(
         canvas,
-        textOffset - Offset(iconPainter.width / 2, iconPainter.height / 2 + 10),
+        textOffset -
+            Offset(iconPainter.width / 2, iconPainter.height / 2 + 10),
       );
 
-      // رسم اسم الفئة
       final titlePainter = TextPainter(
         text: TextSpan(
           text: kSegments[i].title,
@@ -114,29 +111,28 @@ class FancyWheelPainter extends CustomPainter {
             shadows: [Shadow(color: Colors.black54, blurRadius: 2)],
           ),
         ),
-        textDirection: TextDirection.rtl, // دعم العربية
+        textDirection: TextDirection.rtl,
       )..layout();
       titlePainter.paint(
         canvas,
-        textOffset - Offset(titlePainter.width / 2, -iconPainter.height / 2),
+        textOffset -
+            Offset(titlePainter.width / 2, -iconPainter.height / 2),
       );
     }
 
-    // دائرة مركزية ذهبية
     final centerCirclePaint = Paint()
       ..shader = RadialGradient(
         colors: [Colors.white, Colors.grey.shade200],
-      ).createShader(Rect.fromCircle(center: center, radius: wheelRadius * 0.18));
+      ).createShader(
+          Rect.fromCircle(center: center, radius: wheelRadius * 0.18));
     canvas.drawCircle(center, wheelRadius * 0.18, centerCirclePaint);
 
-    // حلقة ذهبية
     final centerBorder = Paint()
       ..color = const Color(0xFFD4AF37)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
     canvas.drawCircle(center, wheelRadius * 0.18, centerBorder);
 
-    // نجمة في المركز
     _drawStar(canvas, center, wheelRadius * 0.08, Colors.black87);
   }
 
