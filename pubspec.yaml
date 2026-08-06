@@ -1,7 +1,30 @@
+name: wheel_app
+description: عجلة الأسئلة الفاخرة - MVP
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
 dependencies:
   flutter:
     sdk: flutter
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
 flutter:
+  uses-material-design: true
+
+  # تضمين ملف الأسئلة
   assets:
     - assets/questions.json
+
+  # يمكنك إضافة خط عربي هنا لاحقاً (اختياري)
+  # fonts:
+  #   - family: Cairo
+  #     fonts:
+  #       - asset: fonts/Cairo-Regular.ttf
+  #       - asset: fonts/Cairo-Bold.ttf
+  #         weight: 700
