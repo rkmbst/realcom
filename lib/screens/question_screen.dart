@@ -71,16 +71,14 @@ class _QuestionScreenState extends State<QuestionScreen>
 
   @override
   Widget build(BuildContext context) {
-    // تصنيف الفئات حسب ألوان العجلة
     const categoryColors = {
-      1: Color(0xFF6C5CE7), // نعم/لا
-      2: Color(0xFF00B894), // محايد
-      3: Color(0xFF0984E3), // تصويت جماعي
-      4: Color(0xFFE17055), // اختر بين اثنين
-      5: Color(0xFFD63031), // اعتراف
-      6: Color(0xFFFDCB6E), // تحدي
+      1: Color(0xFF6C5CE7),
+      2: Color(0xFF00B894),
+      3: Color(0xFF0984E3),
+      4: Color(0xFFE17055),
+      5: Color(0xFFD63031),
+      6: Color(0xFFFDCB6E),
     };
-
     const categoryNames = {
       1: "نعم / لا",
       2: "محايد",
@@ -90,21 +88,16 @@ class _QuestionScreenState extends State<QuestionScreen>
       6: "تحدي",
     };
 
-    final catColor =
-        categoryColors[widget.question.category] ?? const Color(0xFF6C5CE7);
-    final catName =
-        categoryNames[widget.question.category] ?? "غير معروف";
+    final catColor = categoryColors[widget.question.category] ?? const Color(0xFF6C5CE7);
+    final catName = categoryNames[widget.question.category] ?? "غير معروف";
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A2E),
-      appBar: AppBar(
-        title: Text("📋 $catName"),
-      ),
+      appBar: AppBar(title: Text("📋 $catName")),
       body: SafeArea(
         child: Column(
           children: [
             const SizedBox(height: 24),
-            // بطاقة الفئة
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -118,22 +111,14 @@ class _QuestionScreenState extends State<QuestionScreen>
                 children: [
                   Icon(Icons.category, color: catColor, size: 20),
                   const SizedBox(width: 8),
-                  Text(
-                    catName,
-                    style: TextStyle(
-                      color: catColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
+                  Text(catName, style: TextStyle(color: catColor, fontWeight: FontWeight.bold, fontSize: 16)),
                 ],
               ),
             ),
             const Spacer(),
-            // السؤال
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: AnimatedBuilder(
+              child: AnimatedBuilder(   // <-- تم التصحيح هنا
                 animation: _pulseAnimation,
                 builder: (context, child) {
                   return Transform.scale(
@@ -143,25 +128,18 @@ class _QuestionScreenState extends State<QuestionScreen>
                 },
                 child: Column(
                   children: [
-                    const Icon(Icons.help_outline,
-                        size: 48, color: Color(0xFFD4AF37)),
+                    const Icon(Icons.help_outline, size: 48, color: Color(0xFFD4AF37)),
                     const SizedBox(height: 20),
                     Text(
                       widget.question.text,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        height: 1.5,
-                      ),
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white, height: 1.5),
                     ),
                   ],
                 ),
               ),
             ),
             const Spacer(),
-            // خيارات الإجابة
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Wrap(
@@ -174,59 +152,34 @@ class _QuestionScreenState extends State<QuestionScreen>
                     onTap: _isRevealed ? null : () => _selectAnswer(option),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                       decoration: BoxDecoration(
-                        color: isSelected
-                            ? catColor
-                            : Colors.white.withOpacity(0.08),
+                        color: isSelected ? catColor : Colors.white.withOpacity(0.08),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: isSelected
-                              ? catColor
-                              : Colors.white.withOpacity(0.2),
+                          color: isSelected ? catColor : Colors.white.withOpacity(0.2),
                           width: 2,
                         ),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  color: catColor.withOpacity(0.4),
-                                  blurRadius: 12,
-                                  spreadRadius: 1,
-                                ),
-                              ]
-                            : [],
+                        boxShadow: isSelected ? [BoxShadow(color: catColor.withOpacity(0.4), blurRadius: 12, spreadRadius: 1)] : [],
                       ),
-                      child: Text(
-                        option,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: Text(option, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white)),
                     ),
                   );
                 }).toList(),
               ),
             ),
             const SizedBox(height: 32),
-            // زر المتابعة
             if (_isRevealed)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: ElevatedButton(
                   onPressed: _proceedToResults,
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                     backgroundColor: const Color(0xFFD4AF37),
                     foregroundColor: Colors.black87,
-                    textStyle: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+                    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
                   child: const Text("شاهد النتيجة 📊"),
                 ),
