@@ -52,20 +52,20 @@ class _WheelScreenState extends State<WheelScreen>
   Future<void> _spinWheel() async {
     if (_isSpinning) return;
     setState(() => _isSpinning = true);
-
-    // رد فعل لمسي مع fallback صامت
     HapticHelper.mediumImpact();
 
     final randomDuration = 3000 + Random().nextInt(2000);
-
     _spinController.reset();
     _spinController.duration = Duration(milliseconds: randomDuration);
 
-    await _spinController.forward().orCancel;
+    try {
+      await _spinController.forward().orCancel;
+    } catch (_) {
+      // في حال تم إلغاء الأنيميشن بشكل غير متوقع
+    }
 
     if (!mounted) return;
 
-    // حساب القسم الفائز
     final normalizedAngle = _currentRotation % (2 * pi);
     final segmentAngle = 2 * pi / kSegments.length;
     final pointerAngle = (2 * pi - normalizedAngle + pi / 2) % (2 * pi);
@@ -73,10 +73,8 @@ class _WheelScreenState extends State<WheelScreen>
 
     setState(() => _isSpinning = false);
 
-    // جلب سؤال عشوائي من الفئة المختارة
     final question = _repo.getRandomQuestion(selectedIndex + 1);
     if (question != null) {
-      // انتقال لشاشة السؤال
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -88,7 +86,6 @@ class _WheelScreenState extends State<WheelScreen>
         ),
       );
     } else {
-      // لا توجد أسئلة في هذه الفئة (حالة فراغ حسب Aurora UI)
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('لا توجد أسئلة في هذه الفئة بعد. يمكنك اقتراح سؤال جديد!'),
@@ -111,13 +108,9 @@ class _WheelScreenState extends State<WheelScreen>
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A2E),
-      appBar: AppBar(
-        title: const Text("🎡 عجلة الأسئلة"),
-      ),
+      appBar: AppBar(title: const Text("🎡 عجلة الأسئلة")),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(color: Color(0xFFD4AF37)),
-            )
+          ? const Center(child: CircularProgressIndicator(color: Color(0xFFD4AF37)))
           : _errorMessage != null
               ? Center(
                   child: ErrorBanner(
@@ -128,10 +121,8 @@ class _WheelScreenState extends State<WheelScreen>
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // المؤشر المثلث
                     _buildIndicator(),
                     const SizedBox(height: 16),
-                    // العجلة
                     GestureDetector(
                       onVerticalDragEnd: _isSpinning ? null : (_) => _spinWheel(),
                       onTap: _isSpinning ? null : () => _spinWheel(),
@@ -141,51 +132,31 @@ class _WheelScreenState extends State<WheelScreen>
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(
-                              color: Colors.black38,
-                              blurRadius: 30,
-                              spreadRadius: 5,
-                            ),
-                            BoxShadow(
-                              color: Colors.white10,
-                              blurRadius: 15,
-                              spreadRadius: -5,
-                            ),
+                            BoxShadow(color: Colors.black38, blurRadius: 30, spreadRadius: 5),
+                            BoxShadow(color: Colors.white10, blurRadius: 15, spreadRadius: -5),
                           ],
                         ),
                         child: CustomPaint(
-                          painter: FancyWheelPainter(
-                            _currentRotation,
-                            wheelDiameter / 2,
-                          ),
+                          painter: FancyWheelPainter(_currentRotation, wheelDiameter / 2),
                           child: Center(
                             child: _isSpinning
                                 ? const SizedBox.shrink()
-                                : const Icon(
-                                    Icons.touch_app,
-                                    color: Colors.white54,
-                                    size: 32,
-                                  ),
+                                : const Icon(Icons.touch_app, color: Colors.white54, size: 32),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 32),
-                    // زر الدوران
                     ElevatedButton.icon(
                       onPressed: _isSpinning ? null : _spinWheel,
                       icon: const Icon(Icons.casino),
                       label: Text(_isSpinning ? "جاري الدوران..." : "دور العجلة"),
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 36, vertical: 18),
+                        padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 18),
                         backgroundColor: const Color(0xFFD4AF37),
                         foregroundColor: Colors.black87,
-                        textStyle: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+                        textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         elevation: 8,
                       ),
                     ),
@@ -218,7 +189,6 @@ class _IndicatorPainter extends CustomPainter {
       ..close();
 
     canvas.drawPath(path, paint);
-
     final shadowPaint = Paint()
       ..color = Colors.black26
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
