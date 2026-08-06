@@ -4,24 +4,18 @@ class HapticHelper {
   static void lightImpact() {
     try {
       HapticFeedback.lightImpact();
-    } catch (_) {
-      // الصمت التام — بدون صوت أو اهتزاز بصري بديل
-    }
+    } catch (_) {}
   }
 
   static void mediumImpact() {
     try {
       HapticFeedback.mediumImpact();
-    } catch (_) {
-      // Fallback صامت
-    }
+    } catch (_) {}
   }
 
   static void heavyImpact() {
     try {
       HapticFeedback.heavyImpact();
-    } catch (_) {
-      // Fallback صامت
-    }
+    } catch (_) {}
   }
 }
