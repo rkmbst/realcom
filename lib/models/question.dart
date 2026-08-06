@@ -1,9 +1,9 @@
 class Question {
   final String id;
-  final int category;        // 1-6
-  final String text;         // نص السؤال
-  final List<String> options; // خيارات الإجابة (نعم/لا/محايد...)
-  final String? packTag;     // حزمة موضوعية (اختياري)
+  final int category;
+  final String text;
+  final List<String> options;
+  final String? packTag;
 
   const Question({
     required this.id,
@@ -21,15 +21,5 @@ class Question {
       options: List<String>.from(json['options'] as List),
       packTag: json['packTag'] as String?,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'category': category,
-      'text': text,
-      'options': options,
-      'packTag': packTag,
-    };
   }
 }
