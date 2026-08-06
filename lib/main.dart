@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'screens/wheel_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,10 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Color(0xFF6C5CE7),
-        scaffoldBackgroundColor: Color(0xFF1A1A2E),
-        fontFamily: 'Cairo', // يدعم العربية
-        appBarTheme: AppBarTheme(
+        primaryColor: const Color(0xFF6C5CE7),
+        scaffoldBackgroundColor: const Color(0xFF1A1A2E),
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: WheelScreen(),
+      home: const WheelScreen(),
     );
   }
 }
