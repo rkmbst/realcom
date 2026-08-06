@@ -35,9 +35,11 @@ class AuroraButton extends StatelessWidget {
       label: Text(text),
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-        backgroundColor: isPrimary ? const Color(0xFFD4AF37) : Colors.grey.shade700,
+        backgroundColor:
+            isPrimary ? const Color(0xFFD4AF37) : Colors.grey.shade700,
         foregroundColor: isPrimary ? Colors.black87 : Colors.white,
-        textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        textStyle:
+            const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
