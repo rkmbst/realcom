@@ -17,39 +17,34 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // فرز النتائج تنازلياً
     final sortedResults = results.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
-
-    final maxValue = sortedResults.isNotEmpty ? sortedResults.first.value : 0.0;
+    final maxValue =
+        sortedResults.isNotEmpty ? sortedResults.first.value : 0.0;
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A1A2E),
-      appBar: AppBar(
-        title: const Text("📊 النتيجة"),
-      ),
+      appBar: AppBar(title: const Text("📊 النتيجة")),
       body: SafeArea(
         child: Column(
           children: [
             const SizedBox(height: 24),
-            // السؤال
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
                 question.text,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white70,
-                ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white70),
               ),
             ),
             const SizedBox(height: 12),
-            // إجابة المستخدم
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 40),
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
               decoration: BoxDecoration(
                 color: const Color(0xFFD4AF37).withOpacity(0.15),
                 borderRadius: BorderRadius.circular(20),
@@ -58,14 +53,12 @@ class ResultScreen extends StatelessWidget {
               child: Text(
                 "إجابتك: $userAnswer",
                 style: const TextStyle(
-                  color: Color(0xFFD4AF37),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+                    color: Color(0xFFD4AF37),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
               ),
             ),
             const SizedBox(height: 32),
-            // الأعمدة البيانية
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -92,34 +85,32 @@ class ResultScreen extends StatelessWidget {
                                     const Padding(
                                       padding: EdgeInsets.only(right: 6),
                                       child: Icon(Icons.check_circle,
-                                          color: Color(0xFFD4AF37), size: 16),
+                                          color: Color(0xFFD4AF37),
+                                          size: 16),
                                     ),
                                   Text(
                                     entry.key,
                                     style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: isUserChoice
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                      color: Colors.white,
-                                    ),
+                                        fontSize: 16,
+                                        fontWeight: isUserChoice
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                        color: Colors.white),
                                   ),
                                 ],
                               ),
                               Text(
                                 "${percentage.round()}%",
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: barColor,
-                                ),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: barColor),
                               ),
                             ],
                           ),
                           const SizedBox(height: 6),
                           Stack(
                             children: [
-                              // خلفية الشريط
                               Container(
                                 height: 12,
                                 decoration: BoxDecoration(
@@ -127,13 +118,14 @@ class ResultScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                               ),
-                              // الشريط المملوء
                               AnimatedContainer(
                                 duration:
                                     const Duration(milliseconds: 800),
                                 curve: Curves.easeOutCubic,
                                 height: 12,
-                                width: (MediaQuery.of(context).size.width -
+                                width: (MediaQuery.of(context)
+                                            .size
+                                            .width -
                                         64) *
                                     (percentage / maxValue),
                                 decoration: BoxDecoration(
@@ -152,10 +144,9 @@ class ResultScreen extends StatelessWidget {
                                   boxShadow: isUserChoice
                                       ? [
                                           BoxShadow(
-                                            color: const Color(0xFFD4AF37)
-                                                .withOpacity(0.4),
-                                            blurRadius: 8,
-                                          )
+                                              color: const Color(0xFFD4AF37)
+                                                  .withOpacity(0.4),
+                                              blurRadius: 8)
                                         ]
                                       : [],
                                 ),
@@ -169,16 +160,13 @@ class ResultScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // أزرار الإجراءات
             Padding(
               padding: const EdgeInsets.all(24),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.casino),
                     label: const Text("دور مجدداً"),
                     style: ElevatedButton.styleFrom(
@@ -189,8 +177,7 @@ class ResultScreen extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+                          borderRadius: BorderRadius.circular(30)),
                     ),
                   ),
                 ],
