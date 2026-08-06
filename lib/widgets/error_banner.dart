@@ -21,7 +21,7 @@ class ErrorBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: const Border(
           left: BorderSide(
-            color: Color(0xFFD63031), // error لون
+            color: Color(0xFFD63031),
             width: 3,
           ),
         ),
@@ -49,9 +49,7 @@ class ErrorBanner extends StatelessWidget {
               child: const Text(
                 "إعادة المحاولة",
                 style: TextStyle(
-                  color: Color(0xFF6C5CE7),
-                  fontWeight: FontWeight.bold,
-                ),
+                    color: Color(0xFF6C5CE7), fontWeight: FontWeight.bold),
               ),
             ),
         ],
