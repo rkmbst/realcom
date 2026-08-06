@@ -125,7 +125,7 @@ class _QuestionScreenState extends State<QuestionScreen>
             const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: AnimatedBuilder( // ✅ تم التصحيح من AnimatedBuilder إلى AnimatedBuilder
+              child: AnimatedBuilder(   // ✅ تم التصحيح
                 animation: _pulseAnimation,
                 builder: (context, child) {
                   return Transform.scale(
@@ -222,4 +222,5 @@ class _QuestionScreenState extends State<QuestionScreen>
       ),
     );
   }
+}
 }
