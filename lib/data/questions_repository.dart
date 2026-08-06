@@ -20,18 +20,17 @@ class QuestionsRepository {
   }
 
   Question? getRandomQuestion(int category) {
-    // التحقق من وجود أسئلة في الفئة من الأساس
-    final allInCategory = _allQuestions.where((q) => q.category == category).toList();
+    // ✅ إصلاح: فحص الفئة الفارغة قبل أي شيء
+    final allInCategory =
+        _allQuestions.where((q) => q.category == category).toList();
     if (allInCategory.isEmpty) {
-      return null; // لا توجد أسئلة في هذه الفئة
+      return null;
     }
 
-    // تجميع الأسئلة غير المستخدمة
     var pool = allInCategory
         .where((q) => !_usedQuestionIds.contains(q.id))
         .toList();
 
-    // إذا استُنفدت، نعيد تعيين المستخدمة ونأخذ من الكل
     if (pool.isEmpty) {
       _usedQuestionIds.clear();
       pool = allInCategory;
@@ -41,7 +40,6 @@ class QuestionsRepository {
     final question = pool[randomIndex];
     _usedQuestionIds.add(question.id);
 
-    // خلط عشوائي للخيارات
     final shuffledOptions = List<String>.from(question.options)..shuffle();
 
     return Question(
@@ -64,13 +62,15 @@ class QuestionsRepository {
         final sumSoFar = results.values.fold(0.0, (a, b) => a + b);
         results[remainingOptions[i]] = (total - sumSoFar).toDouble();
       } else {
-        final maxShare = total - results.values.fold(0.0, (a, b) => a + b) - (remainingOptions.length - i - 1) * 5;
-        results[remainingOptions[i]] = (5 + random.nextInt(maxShare.toInt() - 5)).toDouble();
+        final maxShare = total -
+            results.values.fold(0.0, (a, b) => a + b) -
+            (remainingOptions.length - i - 1) * 5;
+        results[remainingOptions[i]] =
+            (5 + random.nextInt(maxShare.toInt() - 5)).toDouble();
       }
     }
     return results;
   }
 
   bool get hasQuestions => _allQuestions.isNotEmpty;
-  int get questionsCount => _allQuestions.length;
 }
