@@ -5,7 +5,7 @@ import '../models/question.dart';
 
 class QuestionsRepository {
   List<Question> _allQuestions = [];
-  final Set<String> _usedQuestionIds = {}; // منع التكرار في الجلسة
+  final Set<String> _usedQuestionIds = {};
 
   Future<void> loadQuestions() async {
     try {
@@ -20,21 +20,28 @@ class QuestionsRepository {
   }
 
   Question? getRandomQuestion(int category) {
-    final pool = _allQuestions
-        .where((q) => q.category == category && !_usedQuestionIds.contains(q.id))
+    // التحقق من وجود أسئلة في الفئة من الأساس
+    final allInCategory = _allQuestions.where((q) => q.category == category).toList();
+    if (allInCategory.isEmpty) {
+      return null; // لا توجد أسئلة في هذه الفئة
+    }
+
+    // تجميع الأسئلة غير المستخدمة
+    var pool = allInCategory
+        .where((q) => !_usedQuestionIds.contains(q.id))
         .toList();
 
+    // إذا استُنفدت، نعيد تعيين المستخدمة ونأخذ من الكل
     if (pool.isEmpty) {
-      // إعادة تدوير الأسئلة المستخدمة إذا نفدت
       _usedQuestionIds.clear();
-      return getRandomQuestion(category);
+      pool = allInCategory;
     }
 
     final randomIndex = Random().nextInt(pool.length);
     final question = pool[randomIndex];
     _usedQuestionIds.add(question.id);
 
-    // خلط عشوائي لخيارات الإجابة (قاعدة التعشيق)
+    // خلط عشوائي للخيارات
     final shuffledOptions = List<String>.from(question.options)..shuffle();
 
     return Question(
@@ -50,16 +57,14 @@ class QuestionsRepository {
     final random = Random();
     final total = 100;
     final results = <String, double>{};
-
     final remainingOptions = List<String>.from(question.options)..shuffle();
 
     for (int i = 0; i < remainingOptions.length; i++) {
       if (i == remainingOptions.length - 1) {
-        // الخيار الأخير يأخذ الباقي
         final sumSoFar = results.values.fold(0.0, (a, b) => a + b);
         results[remainingOptions[i]] = (total - sumSoFar).toDouble();
       } else {
-        final maxShare = 100 - results.values.fold(0.0, (a, b) => a + b) - (remainingOptions.length - i - 1) * 5;
+        final maxShare = total - results.values.fold(0.0, (a, b) => a + b) - (remainingOptions.length - i - 1) * 5;
         results[remainingOptions[i]] = (5 + random.nextInt(maxShare.toInt() - 5)).toDouble();
       }
     }
@@ -67,14 +72,5 @@ class QuestionsRepository {
   }
 
   bool get hasQuestions => _allQuestions.isNotEmpty;
-
   int get questionsCount => _allQuestions.length;
-
-  List<String> getPackTags() {
-    return _allQuestions
-        .where((q) => q.packTag != null)
-        .map((q) => q.packTag!)
-        .toSet()
-        .toList();
-  }
 }
