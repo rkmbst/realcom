@@ -58,11 +58,10 @@ class _WheelScreenState extends State<WheelScreen>
     _spinController.reset();
     _spinController.duration = Duration(milliseconds: randomDuration);
 
+    // ✅ إصلاح: استخدام try/catch بدلاً من .orCancel
     try {
-      await _spinController.forward(); // ✅ تم إزالة .orCancel واستخدام try/catch
-    } catch (_) {
-      // تم إلغاء الأنيميشن بأمان
-    }
+      await _spinController.forward();
+    } catch (_) {}
 
     if (!mounted) return;
 
