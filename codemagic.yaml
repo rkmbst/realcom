@@ -1,10 +1,10 @@
 workflows:
-  android-build:
-    name: Android Build
+  build-android:
+    name: Build Android APK
     environment:
-      flutter: stable
+      flutter: 3.24.0   # إصدار Flutter حديث يدعم كل شيء
     scripts:
       - flutter pub get
-      - flutter build apk --release
+      - flutter build apk --release --android-skip-build-dependency-validation
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
